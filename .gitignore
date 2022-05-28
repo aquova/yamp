@@ -5,3 +5,7 @@
 !*.*
 # Unignore directories
 !*/
+
+# Ignore test files
+*.md
+*.html
