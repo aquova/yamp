@@ -39,7 +39,7 @@ proc main() =
 
     f.write("<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\">\n</head>\n<body>\n")
 
-    var ordered_list, unordered_list = false
+    var prev_empty, ordered_list, unordered_list = false
     for line in lines(input_filename):
         var
             pre, txt, link, post: string
@@ -47,9 +47,16 @@ proc main() =
             modified_line = line
 
         if line == "":
-            f.write("<br/>\n")
+            if prev_empty:
+                f.write("<br/>\n")
+            else:
+                # Only add a '<br>' if we have >1 line breaks
+                prev_empty = true
             continue
-        elif line == "---":
+        else:
+            prev_empty = false
+
+        if line == "---":
             f.write("<hr/>\n")
             continue
 
