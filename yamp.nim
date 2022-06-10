@@ -71,6 +71,10 @@ proc main() =
             f.write("<h1>", txt, "</h1>\n")
             continue
 
+        # Special case for bold and italics
+        if modified_line.scanf("$****$+***$*", pre, txt, post):
+            modified_line = pre & "<b><i>" & txt & "</i></b>" & post
+
         # Bold
         if modified_line.scanf("$***$+**$*", pre, txt, post):
             modified_line = pre & "<b>" & txt & "</b>" & post
