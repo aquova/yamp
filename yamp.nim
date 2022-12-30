@@ -72,27 +72,27 @@ proc main() =
             continue
 
         # Special case for bold and italics
-        if modified_line.scanf("$****$+***$*", pre, txt, post):
+        while modified_line.scanf("$****$+***$*", pre, txt, post):
             modified_line = pre & "<b><i>" & txt & "</i></b>" & post
 
         # Bold
-        if modified_line.scanf("$***$+**$*", pre, txt, post):
+        while modified_line.scanf("$***$+**$*", pre, txt, post):
             modified_line = pre & "<b>" & txt & "</b>" & post
 
         # Italics
-        if modified_line.scanf("$**$+*$*", pre, txt, post):
+        while modified_line.scanf("$**$+*$*", pre, txt, post):
             modified_line = pre & "<i>" & txt & "</i>" & post
 
         # Strikethru
-        if modified_line.scanf("$*~~$+~~$*", pre, txt, post):
+        while modified_line.scanf("$*~~$+~~$*", pre, txt, post):
             modified_line = pre & "<del>" & txt & "</del>" & post
 
         # Underline
-        if modified_line.scanf("$*__$+__$*", pre, txt, post):
+        while modified_line.scanf("$*__$+__$*", pre, txt, post):
             modified_line = pre & "<u>" & txt & "</u>" & post
 
         # In-line code block
-        if modified_line.scanf("$*`$+`$*", pre, txt, post):
+        while modified_line.scanf("$*`$+`$*", pre, txt, post):
             modified_line = pre & "<code>" & txt & "</code>" & post
 
         # Lists
@@ -117,11 +117,11 @@ proc main() =
             ordered_list = false
 
         # Images
-        if modified_line.scanf("$*![$+]($+)$*", pre, txt, link, post):
+        while modified_line.scanf("$*![$+]($+)$*", pre, txt, link, post):
             modified_line = pre & "<img src=\"" & link & "\">" & txt & "</img>" & post
 
         # Hyperlinks
-        if modified_line.scanf("$*[$+]($+)$*", pre, txt, link, post):
+        while modified_line.scanf("$*[$+]($+)$*", pre, txt, link, post):
             modified_line = pre & "<a href=\"" & link & "\">" & txt & "</a>" & post
 
         modified_line = "<p>" & modified_line & "</p>\n"
