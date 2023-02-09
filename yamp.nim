@@ -118,7 +118,7 @@ proc main() =
 
         # Images
         while modified_line.scanf("$*![$+]($+)$*", pre, txt, link, post):
-            modified_line = pre & "<img src=\"" & link & "\">" & txt & "</img>" & post
+            modified_line = pre & "<figure><img src=\"" & link & "\" /><figcaption>" & txt & "</figcaption></figure>" & post
 
         # Hyperlinks
         while modified_line.scanf("$*[$+]($+)$*", pre, txt, link, post):
