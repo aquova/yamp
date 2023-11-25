@@ -11,7 +11,7 @@
 # Code tags
 # Line breaks, horizontal lines
 
-import os, strscans
+import os, strscans, strutils
 
 proc usage() =
     echo """
@@ -39,12 +39,25 @@ proc main() =
 
     f.write("<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\">\n</head>\n<body>\n")
 
-    var prev_empty, ordered_list, unordered_list = false
+    var prev_empty, ordered_list, unordered_list, code_block = false
     for line in lines(input_filename):
         var
             pre, txt, link, post: string
             unused: int
             modified_line = line
+
+        if line.startsWith("```"):
+            if not code_block:
+                f.write("<pre><code>\n")
+            else:
+                f.write("</code></pre>\n")
+            code_block = not code_block
+            continue
+
+        # Don't convert any text inside a code block
+        if code_block:
+            f.write(line & "\n")
+            continue
 
         if line == "":
             if prev_empty:
@@ -69,6 +82,11 @@ proc main() =
             continue
         elif line.scanf("#$s$+", txt):
             f.write("<h1>", txt, "</h1>\n")
+            continue
+
+        # Images
+        if modified_line.scanf("$*![$+]($+)$*", pre, txt, link, post):
+            f.write(pre & "<figure><img src=\"" & link & "\" /><figcaption>" & txt & "</figcaption></figure>" & post)
             continue
 
         # Special case for bold and italics
@@ -115,10 +133,6 @@ proc main() =
         elif ordered_list:
             f.write("</ol>\n")
             ordered_list = false
-
-        # Images
-        while modified_line.scanf("$*![$+]($+)$*", pre, txt, link, post):
-            modified_line = pre & "<figure><img src=\"" & link & "\" /><figcaption>" & txt & "</figcaption></figure>" & post
 
         # Hyperlinks
         while modified_line.scanf("$*[$+]($+)$*", pre, txt, link, post):
