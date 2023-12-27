@@ -86,7 +86,7 @@ proc main() =
 
         # Images
         if modified_line.scanf("$*![$+]($+)$*", pre, txt, link, post):
-            f.write(pre & "<img src=\"" & link & "\" /> & post)
+            f.write(pre & "<img src=\"" & link & "\" />" & post)
             continue
 
         # Special case for bold and italics
