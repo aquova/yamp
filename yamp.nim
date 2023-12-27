@@ -141,6 +141,8 @@ proc main() =
         modified_line = "<p>" & modified_line & "</p>\n"
         f.write(modified_line)
 
+    if unordered_list: f.write("</ul>\n")
+    if ordered_list: f.write("</ol>\n")
     f.write("</body>\n</html>")
     f.close()
 
