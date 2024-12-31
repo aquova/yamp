@@ -5,6 +5,8 @@
 !*.*
 # Unignore directories
 !*/
+# Unignore build files
+!PKGBUILD
 
 # Ignore test files
 *.md
