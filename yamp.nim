@@ -10,6 +10,7 @@
 # Images
 # Code tags
 # Line breaks, horizontal lines
+# &mdash; HTML character
 
 import os, strscans, strutils
 
@@ -37,7 +38,7 @@ proc main() =
         echo("Unable to open ", output_filename)
         quit(1)
 
-    f.write("<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\">\n</head>\n<body>\n")
+    f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n</head>\n<body>\n")
 
     var prev_empty, ordered_list, unordered_list, code_block = false
     for line in lines(input_filename):
@@ -112,6 +113,10 @@ proc main() =
         # In-line code block
         while modified_line.scanf("$*`$+`$*", pre, txt, post):
             modified_line = pre & "<code>" & txt & "</code>" & post
+
+        # Em-dash
+        while modified_line.scanf("$*--$*", pre, post):
+            modified_line = pre & "&mdash;" & post
 
         # Lists
         if line.scanf("$s-$s$+", txt):
