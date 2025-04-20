@@ -1,6 +1,6 @@
 # Maintainer: aquova <mail at aquova dot net>
 pkgname="yamp-git"
-pkgver=r10.403804a
+pkgver=r12.d2f17cb
 pkgrel=1
 pkgdesc="Yet Another Markdown Parser"
 url="https://github.com/aquova/yamp"

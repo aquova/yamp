@@ -55,9 +55,12 @@ proc main() =
             code_block = not code_block
             continue
 
-        # Don't convert any text inside a code block
+        # In a code block, don't do most conversions, but escape some HTML characters
         if code_block:
-            f.write(line & "\n")
+            modified_line = modified_line.replace("&", "&amp;")
+            modified_line = modified_line.replace("<", "&lt;")
+            modified_line = modified_line.replace(">", "&gt;")
+            f.write(modified_line & "\n")
             continue
 
         if line == "":
@@ -115,8 +118,7 @@ proc main() =
             modified_line = pre & "<code>" & txt & "</code>" & post
 
         # Em-dash
-        while modified_line.scanf("$*--$*", pre, post):
-            modified_line = pre & "&mdash;" & post
+        modified_line = modified_line.replace("--", "&mdash;")
 
         # Lists
         if line.scanf("$s-$s$+", txt):
